@@ -3,8 +3,6 @@ Created on Oct 11, 2016
 
 @author: Vitoc
 '''
-from src.consoleUI import consoleUIClass
-from testFunction.testMain import testMainClass
 
 
 if __name__ == '__main__':
@@ -20,13 +18,31 @@ def removeSpecificItems(l,mx):
         if (l[i][0]+l[i][1]+l[i][2]>mx):
             remove(l,i)
 '''
-
-
+      
+        
 def main():
-    consoleUI = consoleUIClass()
-    testClass = testMainClass()
-    testClass.performAllTests()
-    consoleUI.run()
-    del consoleUI,testClass
+    from testFunction.testMain import testMainClass
+    testMainClass = testMainClass()
+    testMainClass.performAllTests()
+    chooseUI()
+
+def chooseUI():
+    print("Please choose between :\n1.Command line UI\n2.Interface UI\n3.Exit")
+    while True:
+        key = input('Input command:')
+        if key == '1':
+            from src.consoleUI import consoleUIClass
+            consoleUIClassModule = consoleUIClass()
+            consoleUIClassModule.run()
+            return
+        elif key == '2':
+            from src.interfaceUI import interfaceUIClass
+            interfaceUIClassModule = interfaceUIClass()
+            interfaceUIClassModule.run()
+            return
+        elif key== '3':
+            return
+        else:
+            print("You have entered a wrong key , please press 1,2 or 3 and then Enter")
 
 main()
