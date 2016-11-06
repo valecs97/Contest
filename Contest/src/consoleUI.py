@@ -141,21 +141,25 @@ class consoleUIClass:
         while True:
             #print(l,'\n',undo)
             cmd = self.readCmd()
-            if cmd[0] == 'exit':
-                return
-    
-            if cmd[0] in cmdsList:
-                if cmd[0]=="undo":
-                    l=self.undoUI(l,undo)
+            try:
+                if cmd[0] == 'exit':
+                    return
+                if cmd[0] in cmdsList:
+                    if cmd[0]=="undo":
+                        l=self.undoUI(l,undo)
+                    else:
+                        try:
+                            import copy
+                            aux=copy.deepcopy(l)
+                            cmdsList[cmd[0]](l,cmd[1:])
+                            if cmd[0]!="list" and cmd[0]!="avg" and cmd[0]!="min" and cmd[0]!='top':
+                                functionsClassModule = functionsClass()
+                                functionsClassModule.saveTheFunction(aux, undo)
+                        except ValueError as ex:
+                            print(ex)
                 else:
-                    try:
-                        import copy
-                        aux=copy.deepcopy(l)
-                        cmdsList[cmd[0]](l,cmd[1:])
-                        if cmd[0]!="list" and cmd[0]!="avg" and cmd[0]!="min" and cmd[0]!='top ':
-                            functionsClassModule = functionsClass()
-                            functionsClassModule.saveTheFunction(aux, undo)
-                    except ValueError as ex:
-                        print(ex)
-            else:
-                print("invalid command")
+                    print("invalid command")
+            except IndexError:
+                pass
+            except:
+                print('An unhandled exception has occured')
